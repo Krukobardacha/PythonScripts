@@ -1,0 +1,20 @@
+#skrypt liczy ilość obiektów w danym pliku
+#w tym przypadku są to pkt adresowe w GMLach
+#-*- coding: utf-8 -*-
+import os
+import codecs
+destination = u"E:/Kkruk/DaneBezOplat/100914/punkty_adr" #Do zmiany folder z pliczkami
+sourcee = os.listdir(destination) # tworzy lista z plikami
+plik =  codecs.open((destination + "/metadane.txt"), 'w', "utf-8") #zapisuje plik
+for f in sourcee:
+    if f[-4:]==".gml":
+        print f #drukuje nazwe pliku by widziec co sie dzieje
+        layer = QgsVectorLayer(destination + "/"+ f, "cocoso", "ogr")#przypisanie do zmiennej
+        plik.write(f[:-4]+str(layer.featureCount())+"\n")#zliczenie obiektow
+plik.close() # zapisuje liste w pliku
+#layer = iface.activeLayer()
+#        QgsMapLayerRegistry.instance().addMapLayer(layer)
+#        layer_id=layer.id()
+#        QgsMapLayerRegistry.instance().removeMapLayer(layer_id)
+#        qgis.utils.iface.addVectorLayer 
+#        plik.write(layer.metadata()+"\n")
