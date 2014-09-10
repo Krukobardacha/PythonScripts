@@ -1,0 +1,19 @@
+#Prosty skrypt QGISa który dla aktywnej warstwy w mapie
+#przypisuje atrybut Obrębowi(3 kolumna) wartosc z kolumny XS_Obreb
+#Obreb musi miec 4 cyfry a wiec w zaleznosci czy jest to 1 czy 2 cydrowa
+#liczba to różnie przypisujemy!
+layer = iface.activeLayer() #zmiennej przypisujemy aktualna warstwe w mapie
+try:
+    for f in layer.getFeatures():#bierzemy sobie dla kazdego obiektu
+        a = f['XS_Obreb']# nazwa z kolumny XSobrebu
+        b=f.id() #pobiera id z aktualnego obiektu
+        if len(a)<2:
+            attrs = { 3 : "000"+a}
+            layer.dataProvider().changeAttributeValues({ b:attrs })
+            #zmienia atrybuty na w danym wierszu b dodaje atrybut w kolumnie 3
+        else:
+            attrs = { 3 :"00"+a}
+            layer.dataProvider().changeAttributeValues({ b:attrs })
+finally:
+    print "koniec"
+#        f.changeAttribute(1, ('000'+a)
