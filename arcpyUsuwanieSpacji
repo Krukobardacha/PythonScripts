@@ -1,0 +1,15 @@
+#Usuwanie w arcgisie spacji przed tekstem, masowo dla wszystkich warst
+import arcpy
+destin = "E:/Kkruk/DaneBezOplat/ADM_do_Zmiany/PRG_jednostki_administracyjne_v5/PRG_jednostki_administracyjne_v5"
+arcpy.env.workspace = destin
+FCList = arcpy.ListFeatureClasses()
+for FC in FCList:
+	desc = arcpy.Describe(FC)           #Describe a layer in the layer list
+	fieldes = desc.fields             #Get the layer name
+	for fiel in fieldes:
+		if fiel.type == 'String':#jeżeli kolumna jest stringowa to
+			fiil = fiel.name
+			warst = destin + "/" + FC    #Setup the calculator expression
+			expr ='!'+fiil+'!'+'.lstrip()'
+			arcpy.CalculateField_management (warst, fiil, expr, "PYTHON_9.3", "#")
+
