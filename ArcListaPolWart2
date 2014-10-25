@@ -1,0 +1,19 @@
+#Listuje warstwe o konkretnej nazwie (Floor) i wymienia wszelkie isniejace w niej wartosci dla konkretnego atrybutu (SHORTNAME)
+import arcpy
+import codecs
+
+mxd = arcpy.mapping.MapDocument("CURRENT")
+lista=arcpy.mapping.ListLayers(mxd)
+for d in lista:
+    if d.name == "Floor":
+        fields = arcpy.ListFields(d)
+        print('------------------')
+        print(d)
+        print('------------------')
+        with arcpy.da.SearchCursor(d,("SHORTNAME")) as cursor:
+            try:
+                for row in cursor:
+                    a = row[0]
+                    print(a)
+            except(AttributeError):
+                pass
