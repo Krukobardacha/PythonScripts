@@ -21,7 +21,5 @@ for d in lista:
             print(a)
             print(fi.type)
             print('...')
-#if a != '<Null>':      ///u'Wartosc'   text.encode('utf-8')
-#            print(fi.name + a.encode('CP-1250') + fi.type)
         except(AttributeError):
             pass
