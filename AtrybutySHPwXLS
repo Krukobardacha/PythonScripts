@@ -1,0 +1,29 @@
+#Skrypt czyta z kilku plików xls (pierwszy wiersz) które zawierają atrybuty danej warstwy.
+
+import xlrd
+import codecs
+import xlwt
+import os
+
+destination="C:/Users/kkruk/Desktop/SHPgml"
+wb = xlwt.Workbook(encoding='windows-1250')
+ws = wb.add_sheet('Sheet')
+
+source = os.listdir(destination)
+plik = codecs.open(("opis.txt"), 'w', "utf-8")
+n=0
+for pliki in source:
+    if pliki[-4:]==".xls":
+        print (pliki.decode('windows-1250'))
+        lista=[]
+        workbook = xlrd.open_workbook(pliki,encoding_override='windows-1250')
+        sheet = workbook.sheet_by_index(0)
+        colu=sheet.ncols #ilosc kolumn w arkuszu
+        print ("kolumn w arkuszu %s" %colu)
+        try:
+            for x in range(0,colu):
+                calosc = sheet.cell_value(0,x)
+                ws.write(n,x, calosc)
+        finally:
+            n=n+1
+wb.save('juzek.xls')
