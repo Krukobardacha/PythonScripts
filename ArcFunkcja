@@ -1,0 +1,8 @@
+def Brak(kolumna):
+ if kolumna is None:
+  return 'brak danych'
+ elif kolumna == "":
+  return 'brak danych'
+ 
+#Wywołanie funkcji  
+#Brak(!pole!)
