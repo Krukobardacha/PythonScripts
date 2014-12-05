@@ -1,0 +1,20 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#plik ma za zadanie zlistowac pliki, sprawdzic ich pierwszy 
+#atrybut TERYT a nastepnie utworzyć w notatniku liste z nazwa pliku i terytem 
+from qgis.core import *
+import os
+import codecs
+
+myfile = open('F:/KONTROLA_GEOMAP/PktAdrCodgikMalopolskie/Metadata.txt', 'w')
+path = "F:/KONTROLA_GEOMAP/PktAdrCodgikMalopolskie/SHP"
+source = os.listdir(path)
+for plik in source:
+	if plik[-4:] == ".shp":
+		layer = QgsVectorLayer(path + "/"+ plik, "ogr")
+		for f in layer.getFeatures(): # listujesz wszystkie punkty :)
+				if f.id() == 1:
+					output = plik + ";" + f['gmi_teryt_identyfikator']
+					plik.write(output)#zapisuje do pliczku wiersz
+print("KONIEC")
+myfile.close()
