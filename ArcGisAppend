@@ -1,0 +1,29 @@
+__author__ = 'krukobardacha'
+#plik pracuje z duza porcja danych, laczy ze jedna geobaza inne geobazy w wielu plikach
+#listujac pliki i laczac odpowiednio z plikiem w glownej geobazie
+import shutil
+import os
+import arcpy
+from arcpy import env
+import codecs
+
+myfile = open('F:/Kkruk/Metadata.txt', 'w')
+path = "F:/Kkruk/Output"
+source = os.listdir(path)
+schemaType = "TEST"
+listaBd = ["PTWP_A","PTLZ_A","KUMN_A","BUBD_A"] #lista koncowek plikow
+for x in listaBd:
+    emptyFC = "F:/Kkruk/dolnoslaskie_m_Wroclaw.gdb/L1_3_BDOT10k__OT_" + x
+    for g in source:
+        arcpy.env.workspace = path + os.sep + g
+        FCList = arcpy.ListFeatureClasses()
+        for f in FCList:
+            if f[-6:] == x:
+                    try:
+                        print("dzialam z " + g +"/"+ x)
+                        myfile.write("dzialam z " + g +"/"+ x)
+                        arcpy.Append_management(f, emptyFC, schemaType)
+                    except:
+                        myfile.write("zakonczylem na " + g +"/"+ x)
+print("KONIEC")
+myfile.close()
