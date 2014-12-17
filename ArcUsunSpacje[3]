@@ -1,0 +1,7 @@
+def Brak(kolumna):
+ if len(kolumna.split('.')) == 3:
+  a = (kolumna.split('.')[2]).strip()
+  return kolumna.split('.')[0]+'.'+ kolumna.split('.')[1]+'.'+ a
+  
+  
+Brak(!teryt!)
