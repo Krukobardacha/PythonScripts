@@ -12,20 +12,25 @@ import tkFileDialog
 root = Tkinter.Tk()
 root.withdraw()
 #usuwa okienko z widoku, bez jego niszczenia
-dirname = tkFileDialog.askdirectory(parent=root, initialdir="/", title='Wybierz folder z excelami')
+dirname = tkFileDialog.askdirectory(parent=root, initialdir="/", title='Wybierz folder z excelami do przerobienia')
 print dirname
-nb = raw_input('wpisz końcówke pliku wyjsciowego: ')
+#nb = raw_input('wpisz końcówke pliku wyjsciowego: ')
 for plik in os.listdir(dirname):
     if plik[-4:]== ".xls":
-        destinationout= plik[:-4]+ nb + ".xls"
-        workbook = xlrd.open_workbook(plik, encoding_override='windows-1250')
+        print plik
+        destinationout= dirname + '/' + plik[:-4]+ "out.xls"
+        print destinationout
+        workbook = xlrd.open_workbook(dirname + '/' + plik, encoding_override='windows-1250')
         wb = xlwt.Workbook(encoding='windows-1250') #zapis excel
         sheet_names = workbook.sheet_names()
         dl = len(sheet_names)
-        for nr in range(0,dl-1):
+        if dl > 1:
+            dl = dl-1
+        for nr in range(0,dl):
             sheet = workbook.sheet_by_name(sheet_names[nr])
+            print sheet
             ws = wb.add_sheet("a"+str(nr), cell_overwrite_ok=True) #nowy shet do zapisu
-            zlicz = ""
+            zlicz = []
             calosc = ""
             i = 0
             colu = sheet.ncols
@@ -41,10 +46,15 @@ for plik in os.listdir(dirname):
                         calosc = spr
                         ws.write(i, 0, calosc)
                         i=i+1
-                        zlicz = sheet.cell_value(x,1)
+                        zlicz = []
+                        zlicz.append(sheet.cell_value(x,2))
                     else:
-                        zlicz = zlicz+ ','+ sheet.cell_value(x, 1)
-                    ws.write(i-1, 1, zlicz)
+                        zlicz.append(sheet.cell_value(x, 2))
+                        zlicz = list(set(zlicz))
+                    lista = ','.join(zlicz)
+                    ws.write(i-1, 1, lista)
             finally:
                 print "koniec"
             wb.save(destinationout)
+#Pliki musza byc posortowane w kolmnie [0]
+#dirname = tkFileDialog.askdirectory(initialdir="/", title='Please select a directory')
