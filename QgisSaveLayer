@@ -1,0 +1,2 @@
+layer = qgis.utils.iface.activeLayer()
+QgsVectorFileWriter.writeAsVectorFormat(layer, r'E:\xyz.csv', "utf-8", None, "CSV")
