@@ -1,0 +1,79 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+__author__ = 'kamil.kruk.geo@gmail.com'
+
+#import codecs
+#import xlrd
+#import xlwt
+import os
+import Tkinter
+import tkFileDialog
+
+
+
+def szukacz(destin,num):
+    for pliczek in os.listdir(destin):
+        if os.path.isdir(plik):
+            num = 1
+        elif pliczek[-4:] == ".xls":
+            print dirname + plik
+        elif pliczek[-4:] == ".rar" or pliczek[-4:] == ".zip":
+            listka.append(destin+pliczek)
+
+
+root = Tkinter.Tk()
+root.withdraw()
+#usuwa okienko z widoku, bez jego niszczenia
+dirname = tkFileDialog.askdirectory(parent=root, initialdir="/", title='Wybierz folder z excelami do przerobienia')
+#nb = raw_input('wpisz końcówke pliku wyjsciowego: ')
+for plik in os.listdir(dirname):
+    if plik[-4:] == ".xls":
+        print dirname + plik
+    else:
+        print plik
+
+''' destinationout= dirname + '/' + plik[:-4]+ "out.xls"
+        print destinationout
+        plik = codecs.open((destination + "/metadane.txt"), 'w', "utf-8") #zapisuje plik
+
+         plik.write(f[:-4]+str(layer.featureCount())+"\n")#zliczenie obiektow
+        plik.close() # zapisuje liste w pliku
+
+        workbook = xlrd.open_workbook(dirname + '/' + plik, encoding_override='windows-1250')
+        wb = xlwt.Workbook(encoding='windows-1250') #zapis excel
+        sheet_names = workbook.sheet_names()
+        dl = len(sheet_names)
+        if dl > 1:
+            dl = dl-1
+        for nr in range(0,dl):
+            sheet = workbook.sheet_by_name(sheet_names[nr])
+            print sheet
+            ws = wb.add_sheet("a"+str(nr), cell_overwrite_ok=True) #nowy shet do zapisu
+            zlicz = []
+            calosc = ""
+            i = 0
+            colu = sheet.ncols
+            #ilosc kolumn w arkuszu
+            wier = sheet.nrows
+            print (plik[:-4])
+            print ("kolumn w arkuszu %s" %colu)
+            print ("wiersz w arkuszu %s" %wier)
+            try:
+                for x in range(0,wier):
+                    spr = sheet.cell_value(x,0)
+                    if spr != calosc:
+                        calosc = spr
+                        ws.write(i, 0, calosc)
+                        i=i+1
+                        zlicz = []
+                        zlicz.append(sheet.cell_value(x,2))
+                    else:
+                        zlicz.append(sheet.cell_value(x, 2))
+                        zlicz = list(set(zlicz))
+                    lista = ','.join(zlicz)
+                    ws.write(i-1, 1, lista)
+            finally:
+                print "koniec"
+            wb.save(destinationout)'''
+#Pliki musza byc posortowane w kolmnie [0],
+#dirname = tkFileDialog.askdirectory(initialdir="/", title='Please select a directory')
