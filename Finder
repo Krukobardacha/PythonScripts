@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import codecs
+import xlrd
+import os
+import Tkinter
+import tkFileDialog
+import subprocess
+
+def pyrexcel(path,file,list):
+    print 'robie: ' + path + '/' + file
+    workbook = xlrd.open_workbook(path + '/' + file, encoding_override='windows-1250')
+    sheet_names = workbook.sheet_names()
+    for sheeet in sheet_names:
+        list.append(path+"/"+file+"/"+sheeet)
+
+def szukacz(destin,listka,list):
+    for filee in os.listdir(destin):
+        if os.path.isdir(destin +"/" +filee):
+            szukacz(destin +"/" +filee,listka,list)
+        elif filee[-4:] == ".xls":
+            pyrexcel(destin,filee,list)
+        elif filee[-4:] == ".rar" or filee[-4:] == ".zip":
+            listka.append(destin+filee)
+
+root = Tkinter.Tk()
+root.withdraw()
+listaExcel = []
+listaZip = []
+dirname = tkFileDialog.askdirectory(parent=root, initialdir="/", title='choose')
+print "you choose: " + dirname
+
+try:
+    szukacz(dirname,listaZip,listaExcel)
+except xlrd.XLRDError as e:
+    print e.message
+    pass
+except xlrd.IndexError as c:
+    print c.message
+    pass
