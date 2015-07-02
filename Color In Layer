@@ -1,0 +1,6 @@
+for lyr in arcpy.mapping.ListLayers(mxd):
+ 	lyr.symbology.valueField = u"G5PEW"
+ 	lyr.symbology.numClasses = 3
+ 	lyr.symbology.classBreakValues = [250, 999, 1200]
+ 	arcpy.RefreshTOC() # odświerzam table of contest
+ 	arcpy.RefreshActiveView() 
