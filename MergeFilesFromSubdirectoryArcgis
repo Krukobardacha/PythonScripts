@@ -1,0 +1,55 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+__author__ = 'kamil.kruk.geo@gmail.com'
+
+import Tkinter
+import tkFileDialog
+import arcpy
+from arcpy import env
+
+root = Tkinter.Tk()
+root.withdraw() #usuwa okienko z widoku, bez jego niszczenia
+dirname = tkFileDialog.askdirectory(parent=root, initialdir="/", title='Choose folder with data to merge')
+#C:/Work/HASPS/Asset_Inv/Area3/AssetInv_Final
+print dirname
+env.workspace = dirname
+a="Cycle_Tracks.shp"
+b="Footways.shp"
+c="NMU_Crossing.shp"
+d="Pedestrian_Crossings.shp"
+e="Traffic_Signals.shp"
+fcList = []
+count = 0
+la=[]
+lb=[]
+lc=[]
+ld=[]
+le=[]
+
+fcList = arcpy.ListFeatureClasses()
+for fc in fcList:
+	if fc[-16:] == a:
+		la.append(fc)
+	elif fc[-12:] == b:
+		lb.append(fc)
+	elif fc[-16:] == c:
+		lc.append(fc)
+	elif fc[-24:] == d:
+		ld.append(fc)
+	elif fc[-19:] == e:
+		le.append(fc)
+	elif fc[0:4] == "BIKE":
+		la.append(fc)
+	elif fc[0:4] == "FOOT":
+		lb.append(fc)
+	elif fc[0:4] == "NMUX":
+		lc.append(fc)
+	elif fc[0:4] == "PEDX":
+		ld.append(fc)
+	elif fc[0:4] == "TRSI":
+		le.append(fc)
+arcpy.Merge_management(la, dirname + "/all" + a[0:12])
+arcpy.Merge_management(lb, dirname + "/all" + b[0:8])
+arcpy.Merge_management(lc, dirname + "/all" + c[0:12])
+arcpy.Merge_management(ld, dirname + "/all" + d[0:20])
+arcpy.Merge_management(le, dirname + "/all" + e[0:15])
