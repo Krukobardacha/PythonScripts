@@ -1,0 +1,42 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+__author__ = 'kamil.kruk.geo@gmail.com'
+
+import shutil
+import os
+import Tkinter
+import tkFileDialog
+import arcpy
+from arcpy import env
+
+root = Tkinter.Tk()
+root.withdraw() #usuwa okienko z widoku, bez jego niszczenia
+dirname = tkFileDialog.askdirectory(parent=root, initialdir="/", title='Choose folder with data to copy')
+print dirname
+env.workspace = dirname
+destination2 = "C:/Work/Projects/HOTSPOTS/eksport/AreaFiles/Area23" #sciezka gdzie bede wrzucal
+a="Cycle_Tracks.shp"
+b="Footways.shp"
+c="NMU_Crossing.shp"
+d="Pedestrian_Crossings.shp"
+e="Traffic_Signals.shp"
+
+fcList = []
+count = 0
+for dirname, dirnames, filenames in os.walk(dirname):
+    for subdirname in dirnames:
+        print os.path.join(dirname, subdirname)
+        env.workspace = os.path.join(dirname, subdirname)
+        fcList = arcpy.ListFeatureClasses()
+        for fc in fcList:
+			count = count + 1
+			if fc[-16:] == a:
+				arcpy.CopyFeatures_management(fc, destination2+"\Area3"+fc)
+			elif fc[-12:] == b:
+				arcpy.CopyFeatures_management(fc, destination2+"\Area3"+fc)
+			elif fc[-16:] == c:
+				arcpy.CopyFeatures_management(fc, destination2+"\Area3"+fc)
+			elif fc[-24:] == d:
+				arcpy.CopyFeatures_management(fc, destination2+"\Area3"+fc)
+			elif fc[-19:] == e:
+				arcpy.CopyFeatures_management(fc, destination2+"\Area3"+fc)
