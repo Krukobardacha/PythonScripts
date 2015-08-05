@@ -1,0 +1,6 @@
+The function onMouseDown will return a set of pixel values showing the coordinates 
+of where you clicked, measured in pixels from the upper left of the map display window.
+
+The function onMouseDownMap is sensitive to your current view. If you are in data view, 
+it returns coordinates in the map's coordinate system. If you are in layout view, it returns coordinates in page units
+- but only allows you to click inside the data frame element.
