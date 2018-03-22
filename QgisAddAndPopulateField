@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
+import os
+from qgis.PyQt.QtCore import QVariant
+
+destination = r".../poznan/mala/Warstwy"
+sourcee = os.listdir(destination)
+for file in sourcee:
+    file = file.decode('mbcs')
+    if file[-4:]==".shp":
+        print(file)
+        layerPath = os.path.join(destination,file)
+        layer = QgsVectorLayer(layerPath, os.path.basename(file), "ogr")
+        caps = layer.dataProvider().capabilities() 
+        if caps & QgsVectorDataProvider.AddAttributes:
+            res = layer.dataProvider().addAttributes([QgsField("idk", QVariant.Int)])
+        layer.updateFields()
+        prov = layer.dataProvider()
+        fields = prov.fields()
+        def idks():
+            i = 0
+            for field in fields:
+                if field.name() == "idk":
+                    return i
+                i  += 1
+        out = idks()
+        for f in layer.getFeatures():
+            idk=f.id() #pobiera id z aktualnego obiektu
+            attrs = { out : idk+1}
+            layer.dataProvider().changeAttributeValues({ idk:attrs })
